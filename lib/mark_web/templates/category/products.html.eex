@@ -1,0 +1,15 @@
+<h3>Products:</h3>
+<div class="products">
+  <div class="product header">
+    <div>Name</div>
+    <div>Price</div>
+    <div>Image</div>
+  </div>
+<%= for product <- @products do %>
+    <div class="product">
+      <div><%= product.name %></div>
+      <div><%= product.price%></div>
+      <div><img src=<%= product.img%>></div>
+    </div>
+  <% end %>
+</div>

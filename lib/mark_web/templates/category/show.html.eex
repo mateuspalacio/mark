@@ -1,0 +1,15 @@
+<h1>Show Category</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @category.name %>
+  </li>
+
+</ul>
+<%= render "product_form.html", category: @category, changeset: @changeset, action: Routes.category_category_path(@conn, :add_product, @category) %>
+<%= render "products.html", products: @category.products %>
+
+<span><%= link "Edit", to: Routes.category_path(@conn, :edit, @category) %></span>
+<span><%= link "Back", to: Routes.category_path(@conn, :index) %></span>
