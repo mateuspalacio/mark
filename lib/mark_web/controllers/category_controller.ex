@@ -5,6 +5,23 @@ defmodule MarkWeb.CategoryController do
   alias Mark.Categories.Category
   alias Mark.Repo
   alias Mark.Products.Product
+  alias Mark.Accounts
+
+  plug :check_auth when action in [:new, :create, :edit, :update, :delete]
+
+  defp check_auth(conn, _args) do
+    if user_id = get_session(conn, :current_user_id) do
+    current_user = Accounts.get_user!(user_id)
+
+    conn
+      |> assign(:current_user, current_user)
+    else
+      conn
+      |> put_flash(:error, "You need to be signed in to access that page.")
+      |> redirect(to: Routes.category_path(conn, :index))
+      |> halt()
+    end
+  end
 
   def index(conn, _params) do
     categories = Categories.list_categories()
@@ -17,15 +34,15 @@ defmodule MarkWeb.CategoryController do
   end
 
   def create(conn, %{"category" => category_params}) do
-    case Categories.create_category(category_params) do
-      {:ok, category} ->
-        conn
-        |> put_flash(:info, "Category created successfully.")
-        |> redirect(to: Routes.category_path(conn, :show, category))
+      case Categories.create_category(category_params) do
+        {:ok, category} ->
+          conn
+          |> put_flash(:info, "Category created successfully.")
+          |> redirect(to: Routes.category_path(conn, :show, category))
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
-    end
+        {:error, %Ecto.Changeset{} = changeset} ->
+          render(conn, "new.html", changeset: changeset)
+      end
   end
 
   def show(conn, %{"id" => id}) do

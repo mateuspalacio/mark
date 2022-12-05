@@ -20,6 +20,10 @@ defmodule MarkWeb.Router do
     resources "/categories", CategoryController do
       post "/product", CategoryController, :add_product
     end
+    resources "/users", UserController, only: [:create, :new, :show, :index]
+    get "/sign-in", SessionController, :new
+    post "/sign-in", SessionController, :create
+    delete "/sign-out", SessionController, :delete
   end
 
   # Other scopes may use custom stacks.

@@ -1,15 +1,11 @@
-<h1>Show Category</h1>
-
-<ul>
-
-  <li>
-    <strong>Name:</strong>
-    <%= @category.name %>
-  </li>
-
-</ul>
+<h2> <%= @category.name %> </h2>
+<%= if admin?(@conn) do %>
 <%= render "product_form.html", category: @category, changeset: @changeset, action: Routes.category_category_path(@conn, :add_product, @category) %>
+<% end %>
 <%= render "products.html", products: @category.products %>
 
+<%= if admin?(@conn) do %>
 <span><%= link "Edit", to: Routes.category_path(@conn, :edit, @category) %></span>
+<% end %>
+
 <span><%= link "Back", to: Routes.category_path(@conn, :index) %></span>

@@ -1,0 +1,11 @@
+<h1>Show User</h1>
+
+<ul>
+
+  <li>
+    <strong>Username:</strong>
+    <%= @user.username %>
+  </li>
+
+</ul>
+

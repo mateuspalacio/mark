@@ -13,10 +13,21 @@
       <section class="container">
         <nav role="navigation">
           <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
-            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
-            <% end %>
+            <li><%= link "Categories", to: Routes.category_path(@conn, :index) %></li>
+            <li>
+            <%= if signed_in?(@conn) do %>
+  <%= link "Sign out", to: Routes.session_path(@conn, :delete), method: :delete %>
+<% else %>
+  <%= link "Sign In", to: Routes.session_path(@conn, :new) %>
+  |
+  <%= link "Sign up", to: Routes.user_path(@conn, :new) %>
+<% end %>
+            </li>
+            <li>
+            <%= if signed_in?(@conn) && admin?(@conn) do %>
+  <%= link "Users", to: Routes.user_path(@conn, :index) %>
+<% end %>
+            </li>
           </ul>
         </nav>
         <a href="https://phoenixframework.org/" class="phx-logo">
